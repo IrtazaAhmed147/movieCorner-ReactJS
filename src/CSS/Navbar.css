@@ -1,0 +1,25 @@
+.navbar{
+    background-color: #6741d9;
+    height: 6rem;
+    padding: 0 3.2rem;
+    border-radius: .9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-input{
+    width: 35rem;
+    border: none;
+    outline: none;
+    border-radius: .7rem;
+    background-color: #7950f2;
+    color: #dee2e6;
+    padding: 1.1rem 1.6rem;
+    font-size: 1.5rem;
+}
+.foundRes{
+    font-size: 1.8rem;
+    color: #dee2e6;
+}
+

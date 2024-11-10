@@ -1,0 +1,32 @@
+.Box{
+    width: 35%;
+    border-radius: 10px;
+    background-color: #212529;
+    height: 100%;
+    overflow: hidden;
+}
+
+.movieBox{
+    padding: 0.8rem 3rem;
+    height: 93px;
+    border-bottom: 0.5px solid grey;
+    display: flex;
+    color: white;
+    background-color: #343a40;
+    gap: 20px;
+}
+p{
+    margin: 0;
+}
+
+.WatchMoviesBox{
+    border: none;
+    background-color: #343a40;
+    border-radius: 10px;
+}
+.watchedDetail{
+    margin-top: 30px;
+    gap: 30px;
+    display: flex;
+    font-size: 20px;
+}

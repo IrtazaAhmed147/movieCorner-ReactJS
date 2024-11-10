@@ -1,9 +1,19 @@
 import './App.css';
+import Moviedetails from './Components/Moviedetails';
+import Movielist from './Components/Movielist';
+import Navbar from './Layout/Navbar';
 
 function App() {
   return (
     <div>
-      <h1>Heading</h1>
+
+      <Navbar />
+      <div className='mainBox'>
+
+        <Movielist />
+        <Moviedetails />
+
+      </div>
     </div>
   );
 }
