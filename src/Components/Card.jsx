@@ -3,16 +3,17 @@ import { AppContext } from '../Context/Data'
 
 const Card = (props) => {
   
-  const {setTitle, setYear} = useContext(AppContext)
+  const {setTitle, setYear, setIsMovie} = useContext(AppContext)
 
   const getDetails = (title, year)=> {
     setTitle(title)
     setYear(year)
-    console.log(year)
+    setIsMovie(true)
+    // console.log(year)
   }
   return (
     <div className='movieBox' onClick={()=> getDetails(props.Title, props.Year)}>
-            <img width='50px' src={props.Poster} alt="" />
+            <img width='80px' src={props.Poster} alt="" />
             <div style={{
               fontSize: '18px',
               display: 'flex',

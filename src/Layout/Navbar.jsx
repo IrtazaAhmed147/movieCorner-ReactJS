@@ -1,14 +1,12 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext} from 'react'
 import '../CSS/Navbar.css'
-import { useQuery } from '@tanstack/react-query'
-import { SearchMovieApi } from '../Api/Api'
 import { AppContext } from '../Context/Data'
 
 const Navbar = () => {
 
   // const [input, setInput] = useState('')
 
-  const {input, setInput} = useContext(AppContext)
+  const {setInput} = useContext(AppContext)
   // console.log(input)
   // const { data, isLoading, refetch } = useQuery({
   //   queryKey: ['movie', input],

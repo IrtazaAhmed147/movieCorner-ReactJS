@@ -1,20 +1,19 @@
 
 const apiKey = process.env.REACT_APP_USEPOPCORN_API;
-console.log(apiKey)
+
 export const SearchMovieApi = async (input) => {
+    
 
     try {
         const response = await fetch(`https://www.omdbapi.com/?s=${input}&page=1&apikey=${apiKey}`)    
         const res = await response.json()
         if (res.Response) {
             return res
-        }  else {
-            console.log(res.Error)
-            return res.Error
         }
         
     } catch (error) {
         console.log(error)
+        
     }
 
 }
