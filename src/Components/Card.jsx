@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AppContext } from '../Context/Data'
 
-const Card = () => {
+const Card = (props) => {
+  
+  const {setTitle, setYear} = useContext(AppContext)
+
+  const getDetails = (title, year)=> {
+    setTitle(title)
+    setYear(year)
+    console.log(year)
+  }
   return (
-    <div className='movieBox'>
-            <img width='50px' src="https://m.media-amazon.com/images/M/MV5BMjQzZDExZDEtYjAxYy00ZGVhLWE4YWItNTVkZjA5ZjVjZWM3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="" />
+    <div className='movieBox' onClick={()=> getDetails(props.Title, props.Year)}>
+            <img width='50px' src={props.Poster} alt="" />
             <div style={{
               fontSize: '18px',
               display: 'flex',
@@ -11,11 +20,11 @@ const Card = () => {
               justifyContent: 'space-between',
               padding: '10px 0px'
             }}>
-              <p >Movie</p>
+              <p >{props.Title}</p>
               <div>
 
               <span>🗓 </span>
-              <span>2024-11-10</span>
+              <span>{props.Year}</span>
               </div>
 
             </div>

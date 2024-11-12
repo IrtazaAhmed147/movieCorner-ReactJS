@@ -1,9 +1,10 @@
 .Box{
     width: 35%;
     border-radius: 10px;
-    background-color: #212529;
+    background-color: #2b3035;
     height: 100%;
-    overflow: hidden;
+    overflow: scroll;
+    
 }
 
 .movieBox{
@@ -14,6 +15,10 @@
     color: white;
     background-color: #343a40;
     gap: 20px;
+    cursor: pointer;
+}
+.movieBox:hover{
+    background-color: rgb(57, 60, 63);
 }
 p{
     margin: 0;
@@ -29,4 +34,17 @@ p{
     gap: 30px;
     display: flex;
     font-size: 20px;
+}
+
+.detailBtn{
+
+    background-color: #6741d9;
+    border: none;
+    border-radius: 10rem;
+    color: #dee2e6;
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 1rem;
+    transition: all .3s;
 }
