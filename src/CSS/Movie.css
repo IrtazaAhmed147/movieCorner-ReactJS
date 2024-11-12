@@ -5,8 +5,27 @@
     height: 100%;
     overflow: scroll;
     position: relative;
+    overflow-x: hidden;
     
 }
+.Box::-webkit-scrollbar {
+    width: 15px; /* Width of the scrollbar */
+  }
+  
+  .Box::-webkit-scrollbar-track {
+    background: #efe5e5; /* Track background */
+    border-radius: 5px;
+  }
+  
+  .Box::-webkit-scrollbar-thumb {
+    background-color: grey; /* Scrollbar color */
+    border-radius: 5px;
+    border: 2px solid grey; /* Padding around the scrollbar thumb */
+  }
+  
+  .Box::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Scrollbar color on hover */
+  }
 
 .movieBox{
     padding: 0.8rem 3rem;
@@ -14,7 +33,7 @@
     border-bottom: 0.5px solid grey;
     display: flex;
     color: white;
-    background-color: #343a40;
+    background-color: #2b3035;
     gap: 20px;
     cursor: pointer;
 }
@@ -29,6 +48,7 @@ p{
     border: none;
     background-color: #343a40;
     border-radius: 10px;
+    height: 150px;
 }
 .watchedDetail{
     margin-top: 30px;
@@ -48,6 +68,7 @@ p{
     font-weight: 700;
     padding: 1rem;
     transition: all .3s;
+    width: 100%;
 }
 
 .backBtn{
@@ -59,7 +80,7 @@ p{
     background-color: #fff;
     border: none;
     border-radius: 50%;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, .8);
+    Box-shadow: 0 8px 20px rgba(0, 0, 0, .8);
     color: #2b3035;
     cursor: pointer;
     display: flex;
@@ -73,16 +94,36 @@ p{
     top: .6rem;
     z-index: 999;
 
-    /* border-radius: 50%;
-    background-color: white;
-    height: 35px;
-    width: 35px;
-    box-shadow: 0 8px 20px rgba(0,0,0,.8);
+}
+
+.StarBox{
+    background-color: rgb(52, 58, 64);
+    height: 50px;
+    border-radius: 10px;
+    color: rgb(252, 196, 25);
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
+    gap: 5px;
+    font-size: 23px;
+}
+.adStarBox{
+    height: 140px;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.deleteBtn{
+    aspect-ratio: 1;
+    background-color: #fa5252;
+    border: none;
+    border-radius: 50%;
+    color: #212529;
+    cursor: pointer;
+    font-size: .9rem;
+    font-weight: 700;
+    height: 1.8rem;
     position: absolute;
-    top: 20px;
-    left: 20px;
-    font-size: 30px; */
+    right: 2.4rem;
+    transition: all .3s;
 }

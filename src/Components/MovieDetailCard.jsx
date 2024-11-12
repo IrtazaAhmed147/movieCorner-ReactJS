@@ -1,24 +1,44 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { AppContext } from '../Context/Data'
 
 const MovieDetailCard = (props) => {
 
 
 
     // console.log(props)
-    const {Title, Released, Poster, Plot, imdbRating} = props
+    const {Title, Released, Poster, Plot, imdbRating, Runtime, imdbID} = props
+    const {star, setStar} = useContext(AppContext)
+    const {listMovies, setListMovies} = useContext(AppContext)
 const [count, setCount] = useState(0)
+// const [star, setStar] = useState(0)
 
     const handleMouseEnter = (index)=> {
-        // console.log('asdf')
         setCount(index + 1)
     }
     const handleMouseLeave = ()=> {
-        // console.log('dfbgd')
         setCount(0)
     }
-    const handleStarClick = ()=> {
+    const handleStarClick = (index)=> {
         console.log('asd')
+        setStar(index + 1)
     }
+
+    const handleList = (props)=> {
+        console.log(props)
+        setListMovies([{
+            Runtime,
+            Released,
+            Title,
+            Poster,
+            imdbRating,
+            imdbID,
+            userRating: star,
+
+
+        }, ...listMovies])
+        console.log(listMovies)
+    }
+
 
   return (
     <div style={{
@@ -49,27 +69,25 @@ const [count, setCount] = useState(0)
             padding: '4rem',
             gap: '2rem'
         }}>
-            <div style={{
-                backgroundColor: '#343a40',
-                height: '50px',
-                borderRadius: '10px',
-                color: '#fcc419',
-                display: 'flex',
-                justifyContent: 'space-evenly',
-                alignItems: 'center',
-                gap: '5px',
-                fontSize: '23px'
-            }}>
+            <div className={star ? 'adStarBox StarBox' : 'StarBox' }>
 
                 {/* <i className="fa-solid fa-star"></i> */}
+                <div style={{display: 'flex', alignItems: 'center', gap: '20px'}}>
+
                 <div>
 
                 {[...Array(10)].map((cur, index)=> {
                     
-                    return <span key={index} onClick={handleStarClick} onMouseEnter={()=> handleMouseEnter(index)} onMouseLeave={()=> handleMouseLeave()}><i className={index < count ? "fa-solid fa-star" : "fa-regular fa-star"}></i> </span> 
+                    return <span key={index} onClick={()=> handleStarClick(index)} onMouseEnter={()=> handleMouseEnter(index)} onMouseLeave={()=> handleMouseLeave()}><i className={(index < (count || star))  ? "fa-solid fa-star" : "fa-regular fa-star"}></i> </span> 
                     
                 })} 
-                </div> <span style={{fontSize: '20px'}}>{count}</span>
+                </div> 
+                <span style={{fontSize: '20px'}}>{count || star}</span>
+
+                    </div>
+                    
+            {star > 0 ? <button className='detailBtn' onClick={()=> handleList(props)}>Add to List</button> : ''}
+
             </div>
             <p style={{
                 color: 'white'

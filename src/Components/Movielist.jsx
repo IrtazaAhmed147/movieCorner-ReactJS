@@ -9,6 +9,21 @@ const Movielist = () => {
 
   const {input} = useContext(AppContext)
   // console.log(input)
+
+
+  
+  const { setTitle, setYear, setIsMovie, setStar, listMovies } = useContext(AppContext)
+
+  const getDetails = (title, year) => {
+    setTitle(title)
+    setYear(year)
+    setIsMovie(true)
+    setStar(0)
+
+    // console.log(props)
+    // console.log(year)
+  }
+
   
   const {data, isLoading, refetch} = useQuery({
     queryKey: ['movie'],
@@ -37,7 +52,10 @@ useEffect(()=> {
       {!data && <h1 style={{color: 'white', textAlign: 'center'}}>Search Movie</h1>}
 
        {data && data.Search?.map((movie)=> {
-        return <Card key={movie.imdbID} {...movie}/>
+        return <div key={movie.imdbID}  onClick={() => getDetails(movie.Title, movie.Year)}>
+
+        <Card {...movie}/>
+        </div> 
        })} 
 
        {data && data.Error && <h1 style={{color: 'white', textAlign: 'center'}}>Movie Not Found</h1>}

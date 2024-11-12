@@ -4,10 +4,11 @@ import MovieDetailCard from './MovieDetailCard'
 import { useQuery } from '@tanstack/react-query'
 import { specificMoveiApi } from '../Api/Api'
 import { AppContext } from '../Context/Data'
+import Card from './Card'
 
 const Moviedetails = () => {
 
-  const { title, year, isMovie, setIsMovie } = useContext(AppContext)
+  const { title, year, isMovie, setIsMovie, listMovies } = useContext(AppContext)
 
 
   const { data, isLoading, refetch } = useQuery({
@@ -34,7 +35,10 @@ const Moviedetails = () => {
 
       {isMovie && <div className='backBtn' onClick={() => setIsMovie(false)}>&larr;</div>}
 
-      {!isMovie && <div style={{ display: 'block' }} className='movieBox WatchMoviesBox'>
+      {!isMovie && 
+      <div>
+
+       <div style={{ display: 'block' }} className='movieBox WatchMoviesBox'>
         <p style={{ fontSize: '20px' }}>MOVIES YOU WATCHED</p>
         <div className='watchedDetail'>
           <p>#️⃣ 0 Movies</p>
@@ -42,7 +46,19 @@ const Moviedetails = () => {
           <p>🌟 0.00</p>
           <p>⏳ 0 min</p>
         </div>
-      </div>}
+      </div>
+
+
+      {listMovies && listMovies?.map((movie)=> {
+          return <div key={movie.imdbID} >
+            <Card {...movie}/> 
+            </div> 
+      })}
+        
+
+
+      </div>
+      }
 
       {data.Response !== 'False' && isMovie && <MovieDetailCard {...data} />}
 
