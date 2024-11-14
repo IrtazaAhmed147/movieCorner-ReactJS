@@ -9,18 +9,21 @@ function App() {
   const queryClient = new QueryClient()
 
   return (
-    <QueryClientProvider  client={queryClient}>
+    <QueryClientProvider client={queryClient}>
 
-    <div>
+      <div>
 
-      <Navbar />
-      <div className='mainBox'>
-
-        <Movielist />
-        <Moviedetails />
-
+        <Navbar />
+        <div className='mainBox'>
+          <div className='Box'>
+            <Movielist />
+          </div>
+          <div className='Box'>
+            <Moviedetails />
+          </div>
+        </div>
+        
       </div>
-    </div>
     </QueryClientProvider>
   );
 }
