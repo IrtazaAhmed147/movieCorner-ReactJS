@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react'
-
+import '../CSS/Responsive.css'
 import Card from './Card'
 import { useQuery } from '@tanstack/react-query'
 import { SearchMovieApi } from '../Api/Api'
@@ -41,28 +41,28 @@ const Movielist = () => {
   }
 
   return (
-    <div className='bg-neutral-900	 min-h-screen p-6'>
+    <div className='min-h-screen bg-neutral-900 p-6'>
       <h1 className='text-white text-3xl mb-3'>Search Movie</h1>
-      
-        <form className='flex' onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit();
-        }}>
 
-          <input onChange={(e) => { userInput.current = e.target.value }} className='text-black rounded-xl outline-none mr-2 p-2 w-96 border-solid border-2 border-red-900' type="search" />
-          <button className='bg-red-600 border-solid border-2 border-red-900 px-3 py-2 rounded-xl  text-white flex items-center justify-center gap-2 hover:bg-red-700' type='submit'>
-            <lord-icon
-              src="https://cdn.lordicon.com/fkdzyfle.json"
-              colors="primary:#ffffff"
-              trigger="hover"
-              style={{ width: '25px', height: '25px' }}>
-            </lord-icon>
-            Search</button>
-        </form>
-      
+      <form className='flex' onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}>
+
+        <input onChange={(e) => { userInput.current = e.target.value }} className='text-black rounded-xl outline-none mr-2 p-2 w-96 border-solid border-2 border-red-900' type="search" />
+        <button className='bg-red-600 border-solid border-2 border-red-900 px-3 py-2 rounded-xl  text-white flex items-center justify-center gap-2 hover:bg-red-700' type='submit'>
+          <lord-icon
+            src="https://cdn.lordicon.com/fkdzyfle.json"
+            colors="primary:#ffffff"
+            trigger="hover"
+            style={{ width: '25px', height: '25px' }}>
+          </lord-icon>
+          Search</button>
+      </form>
 
 
-      <div className='flex gap-3 flex-wrap mt-4 '>
+
+      <div className='flex gap-3 flex-wrap mt-4 res-justify' >
 
         {isFetching && <div className=' mt-5  m-auto'><Loader /></div>}
 

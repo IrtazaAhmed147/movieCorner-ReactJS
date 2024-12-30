@@ -24,24 +24,23 @@ const UserMovies = () => {
 
             <div className='text-white flex flex-col gap-10'>
                 <h1 className='text-5xl'>Your Watchlist</h1>
-                <div className=''>
-                    <p className='flex gap-2'>
-                        <lord-icon
-                            src="https://cdn.lordicon.com/qfwgmyhc.json"
-                            trigger="hover"
-                            colors="primary:#ffffff,secondary:#08a88a"
-                            style={{ width: '25px', height: '25px' }}>
-                        </lord-icon>
 
-                        {listMovies?.length} Movies</p>
+                <p className='flex gap-2'>
+                    <lord-icon
+                        src="https://cdn.lordicon.com/qfwgmyhc.json"
+                        trigger="hover"
+                        colors="primary:#ffffff,secondary:#08a88a"
+                        style={{ width: '25px', height: '25px' }}>
+                    </lord-icon>
 
-                </div>
+                    {listMovies?.length} Movies</p>
+
             </div>
-            <div className='flex gap-2 flex-wrap'>
+            <div className='flex gap-2 flex-wrap res-justify'>
                 {listMovies?.map((movie) => {
 
                     return <Card key={movie.imdbID}  {...movie} />
-                  
+
 
                 }
                 )}

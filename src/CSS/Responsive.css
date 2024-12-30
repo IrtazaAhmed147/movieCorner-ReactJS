@@ -1,0 +1,27 @@
+@media screen and (max-width: 790px) {
+    .res-justify {
+        justify-content: center;
+    }
+
+    .res-flexwrap {
+        flex-wrap: wrap;
+    }
+
+    .res-w-100 {
+        width: 100%;
+    }
+
+    .res-h-auto {
+        height: auto;
+    }
+
+    .res-image-box {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    #root {
+        height: auto;
+    }
+}

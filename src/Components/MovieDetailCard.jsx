@@ -46,7 +46,7 @@ const MovieDetailCard = () => {
 
     useEffect(() => {
         const existingMovie = listMovies.find((movie) => movie.imdbID === data?.imdbID)
-       
+
         if (existingMovie) {
             setIsAdded(true)
             setUserRate(existingMovie.userRating)
@@ -79,17 +79,17 @@ const MovieDetailCard = () => {
         });
     };
 
-    if (isFetching) return <div className='min-h-screen bg-neutral-800 pt-10 flex items-center justify-center'> <Loader /> </div>
+    if (isFetching) return <div className='h-screen bg-neutral-800 pt-10 flex items-center justify-center'> <Loader /> </div>
 
     return (
 
-        <div className='min-h-screen bg-neutral-800 pt-10'>
+        <div style={{ minHeight: '90%' }} className='bg-neutral-800 pt-10'>
             {/* Movie Header */}
-            <div className='flex text-white w-3/4 mx-auto h-96 ' >
-                <div className='w-1/4 h-5/6 h-full'>
-                    <img style={{ height: '400px', width: '267px' }} src={data?.Poster === 'N/A' ?  'https://drive-in-theatre.netlify.app/movieImages/default-movie.png': data?.Poster} alt='' />
+            <div className='flex text-white w-4/5 mx-auto h-96 res-flexwrap res-w-100 res-h-auto' >
+                <div className='res-image-box'>
+                    <img style={{ height: '400px', width: '267px' }} src={data?.Poster === 'N/A' ? 'https://drive-in-theatre.netlify.app/movieImages/default-movie.png' : data?.Poster} alt='' />
                 </div>
-                <div className='p-4 w-3/4'>
+                <div className='p-4 w-3/4 res-w-100 '>
 
                     <h1 className='text-5xl mb-8'>{data?.Title}</h1>
                     <div className='flex gap-3 border-b-2 border-neutral-600 text-sm text-neutral-300 mb-3'>
