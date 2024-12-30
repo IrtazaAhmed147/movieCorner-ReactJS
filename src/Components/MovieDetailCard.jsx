@@ -1,22 +1,52 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../Context/Data'
 import { useParams } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import { specificMoveiApi } from '../Api/Api'
+import Loader from './Loader'
 
-const MovieDetailCard = (props) => {
+const MovieDetailCard = () => {
 
-    const { Title, Released, Poster, Plot, imdbRating, Runtime, imdbID, Actors, Director, Genre } = props
     const { star, setStar, setListMovies, listMovies } = useContext(AppContext)
+
+    const [year, setYear] = useState('')
+    const [title, setTitle] = useState('')
 
     const [count, setCount] = useState(0)
     const [isAdded, setIsAdded] = useState(false)
     const [userRate, setUserRate] = useState(0)
 
-    const param = useParams()
-    console.log(param)
+    const { movieID } = useParams()
 
 
     useEffect(() => {
-        const existingMovie = listMovies.find((movie) => movie.imdbID === imdbID)
+        const items = JSON.parse(localStorage.getItem('MoviesCorner')) || []
+        setListMovies(items)
+    }, [setListMovies])
+
+    useEffect(() => {
+        const filterId = () => {
+            const pos = movieID.indexOf('^', 0)
+            setTitle(movieID.slice(0, pos))
+            setYear(movieID.slice(pos + 1, movieID.length))
+        }
+        filterId()
+    }, [movieID])
+
+
+    const { data, isFetching } = useQuery({
+        queryKey: ['specificMovie'],
+        queryFn: () => specificMoveiApi(title, year),
+        enabled: !!title && !!year,
+        refetchOnWindowFocus: false,
+    })
+
+    console.log(data)
+
+
+    useEffect(() => {
+        const existingMovie = listMovies.find((movie) => movie.imdbID === data?.imdbID)
+       
         if (existingMovie) {
             setIsAdded(true)
             setUserRate(existingMovie.userRating)
@@ -24,7 +54,7 @@ const MovieDetailCard = (props) => {
             setIsAdded(false)
             setUserRate(0)
         }
-    }, [imdbID, listMovies])
+    }, [data?.imdbID, listMovies])
 
 
     const handleMouseEnter = (index) => setCount(index + 1)
@@ -33,99 +63,53 @@ const MovieDetailCard = (props) => {
 
     const handleList = () => {
         const newMovie = {
-            Runtime: Runtime === "N/A" ? 0 : Runtime,
-            Released,
-            Title,
-            Poster,
-            imdbRating: imdbRating === "N/A" ? 0 : imdbRating,
-            imdbID,
+            Runtime: data.Runtime === "N/A" ? 0 : data.Runtime,
+            Released: data.Released,
+            Title: data.Title,
+            Poster: data.Poster,
+            imdbRating: data.imdbRating === "N/A" ? 0 : data.imdbRating,
+            imdbID: data.imdbID,
             userRating: star,
         };
 
         setListMovies((prevMovies) => {
             const updatedMovies = [newMovie, ...prevMovies];
-            localStorage.setItem('movies', JSON.stringify(updatedMovies)); // Update localStorage after state
-            // console.log(localStorage)
+            localStorage.setItem('MoviesCorner', JSON.stringify(updatedMovies));
             return updatedMovies;
         });
-
-        console.log(listMovies);
     };
 
+    if (isFetching) return <div className='min-h-screen bg-neutral-800 pt-10 flex items-center justify-center'> <Loader /> </div>
 
     return (
-        // <div style={{ height: '100%', position: 'relative' }}>
-        //     {/* Movie Header */}
-        //     <div style={{ display: 'flex', color: 'white' }}>
-        //         <div>
-        //             <img width='143px' height='100%' src={Poster} alt={Title} />
-        //         </div>
-        //         <div style={{ backgroundColor: '#343a40', width: '100%', padding: '20px' }}>
-        //             <h2 className='movie-head'>{Title}</h2>
-        //             <p className='movie-info-text'>{Released} • {Runtime}</p>
-        //             <p className='movie-info-text'>{Genre}</p>
-        //             <p className='movie-info-text'>⭐️ {imdbRating === "N/A" ? 0 : imdbRating} Average Rating</p>
-        //         </div>
-        //     </div>
 
-        //     <div className='detailBottomBox'>
-
-        //         {/* User Rating Section */}
-        //         <div className={star ? 'adStarBox StarBox' : 'StarBox'}>
-        //             {!isAdded && (
-        //                 <div className='starMainBox' style={{ flexDirection: 'column' }}>
-        //                     {/* Star Rating */}
-        //                     <div className='starMainBox'>
-        //                         <div>
-        //                             {[...Array(10)].map((_, index) => (
-        //                                 <span key={index} onClick={() => handleStarClick(index)}
-        //                                     onMouseEnter={() => handleMouseEnter(index)}
-        //                                     onMouseLeave={handleMouseLeave}>
-        //                                     <i className={(index < (count || star)) ? "fa-solid fa-star" : "fa-regular fa-star"}></i>
-        //                                 </span>
-        //                             ))}
-        //                         </div>
-        //                         <span style={{ fontSize: '20px' }}>{count || star}</span>
-        //                     </div>
-        //                     {star > 0 && <button className='detailBtn' onClick={handleList}>Add to List</button>}
-        //                 </div>
-        //             )}
-        //             {isAdded && <p style={{ color: 'white' }}>You have Rated the movie {userRate} ⭐️</p>}
-        //         </div>
-
-        //         {/* Movie Details */}
-        //         <p style={{ color: 'white' }}>{Plot}</p>
-        //         <p style={{ color: 'white' }}>Actors: {Actors}</p>
-        //         <p style={{ color: 'white' }}>Directed By: {Director}</p>
-        //     </div>
-        // </div>
         <div className='min-h-screen bg-neutral-800 pt-10'>
             {/* Movie Header */}
             <div className='flex text-white w-3/4 mx-auto h-96 ' >
-                <div className='w-2/6 h-full'>
-                    <img style={{ height: '100%' }} width='100%' src='https://drive-in-theatre.netlify.app/movieImages/default-movie.png' alt='' />
+                <div className='w-1/4 h-5/6 h-full'>
+                    <img style={{ height: '400px', width: '267px' }} src={data?.Poster === 'N/A' ?  'https://drive-in-theatre.netlify.app/movieImages/default-movie.png': data?.Poster} alt='' />
                 </div>
-                <div className='p-4'>
+                <div className='p-4 w-3/4'>
 
-                    <h1 className='text-5xl mb-8'>Mufasa</h1>
+                    <h1 className='text-5xl mb-8'>{data?.Title}</h1>
                     <div className='flex gap-3 border-b-2 border-neutral-600 text-sm text-neutral-300 mb-3'>
-                        <p className=''>Year: 2024</p>
-                        <p className=''>Runtime: 2:30</p>
-                        <p className=''>Genre: Action</p>
-                        <p className=''>⭐️ {imdbRating === "N/A" ? 0 : imdbRating} Average Rating: 4.5</p>
+                        <p >Year: {data?.Released}</p>
+                        <p >Runtime: {data?.Runtime}</p>
+                        <p >Genre: {data?.Genre}</p>
+                        <p >⭐️ Average Rating: {data?.imdbRating === "N/A" ? 0 : data?.imdbRating}</p>
                     </div>
                     <div className='text-white text-sm flex flex-col gap-2'>
-                        <p >Plot: <span className='text-cyan-600'>dgfdfsg</span> </p>
-                        <p >Actors: <span className='text-cyan-600'>Khatarnak</span> </p>
-                        <p >Directed By: <span className='text-cyan-600'>Champ</span> </p>
+                        <p >Plot: <span className='text-cyan-600'>{data?.Plot}</span> </p>
+                        <p >Actors: <span className='text-cyan-600'>{data?.Actors}</span> </p>
+                        <p >Directed By: <span className='text-cyan-600'>{data?.Director}</span> </p>
                     </div>
                     {!isAdded && (
-                        <div className='' >
+                        <>
                             {/* Star Rating */}
-                            <div className='starMainBox'>
-                                <div>
+                            <div className='flex items-center gap-4 mt-4'>
+                                <div className='flex'>
                                     {[...Array(10)].map((_, index) => (
-                                        <span key={index} onClick={() => handleStarClick(index)}
+                                        <span className='flex items-center cursor-pointer' key={index} onClick={() => handleStarClick(index)}
                                             onMouseEnter={() => handleMouseEnter(index)}
                                             onMouseLeave={handleMouseLeave}>
                                             {(index < (count || star)) ? <lord-icon
@@ -144,32 +128,23 @@ const MovieDetailCard = (props) => {
                                 </div>
                                 <span style={{ fontSize: '20px' }}>{count || star}</span>
                             </div>
-                            {star > 0 && <button className='' onClick={handleList}>
+                            {star > 0 && <button className='flex items-center gap-2 bg-green-700 border-2 border-green-900 p-2 rounded-md hover:bg-green-800' onClick={handleList}>
+
                                 <lord-icon
                                     src="https://cdn.lordicon.com/oiiqgosg.json"
                                     trigger="hover"
                                     colors="primary:#ffffff"
-                                    style={{width:'25px' ,height:'25px'}}>
+                                    style={{ width: '25px', height: '25px' }}>
                                 </lord-icon>
+                                Add to List
                             </button>}
-                        </div>
+                        </>
                     )}
+                    {isAdded && <p className='text-sm mt-3'>You have Rated the movie {userRate} ⭐️</p>}
                 </div>
-         
-
 
             </div>
 
-            <div className=''>
-
-                {/* User Rating Section */}
-                <div className={star  && 'adStarBox '}>
-                   
-                    {isAdded && <p style={{ color: 'white' }}>You have Rated the movie {userRate} ⭐️</p>}
-                </div>
-
-
-            </div>
         </div>
     );
 }
